@@ -1,132 +1,503 @@
+/* ===========================
+   Modern Calculator Styles
+   =========================== */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette */
+    --primary-gradient-1: #667eea;
+    --primary-gradient-2: #764ba2;
+    --primary-gradient-3: #f093fb;
+    --primary-gradient-4: #f5576c;
+    
+    --glass-white: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    
+    --text-primary: #e2e8f0;
+    --text-secondary: #cbd5e0;
+    
+    --number-bg: linear-gradient(145deg, #2d3748, #1a202c);
+    --number-hover: linear-gradient(145deg, #374151, #1f2937);
+    
+    --operator-bg: linear-gradient(135deg, #805ad5, #6b46c1);
+    --operator-hover: linear-gradient(135deg, #9061f9, #7c3aed);
+    
+    --equal-bg: linear-gradient(135deg, #10b981, #059669);
+    --equal-hover: linear-gradient(135deg, #34d399, #10b981);
+    
+    --clear-bg: linear-gradient(135deg, #ef4444, #dc2626);
+    --clear-hover: linear-gradient(135deg, #f87171, #ef4444);
+    
+    /* Animations */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================
+   Background Animation
+   =========================== */
+.gradient-bg {
+    background: linear-gradient(-45deg, 
+        var(--primary-gradient-1), 
+        var(--primary-gradient-2), 
+        var(--primary-gradient-3), 
+        var(--primary-gradient-4));
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Floating particles effect */
+.gradient-bg::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: floatParticles 30s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0% { 
+        background-position: 0% 50%; 
+    }
+    50% { 
+        background-position: 100% 50%; 
+    }
+    100% { 
+        background-position: 0% 50%; 
+    }
+}
+
+@keyframes floatParticles {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+    }
+}
+
+/* ===========================
+   Glass Morphism Container
+   =========================== */
+.glass-morphism {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1), 
+        rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 80px rgba(103, 126, 234, 0.1);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glass morphism shine effect */
+.glass-morphism::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    animation: shimmer 8s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    20%, 100% { left: 100%; }
+}
+
+/* ===========================
+   Display Screen
+   =========================== */
+.display-screen {
+    background: linear-gradient(135deg, 
+        rgba(17, 24, 39, 0.95), 
+        rgba(31, 41, 55, 0.95));
+    box-shadow: 
+        inset 0 2px 10px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.display-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+}
+
+.display-text {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    font-weight: 300;
+    text-align: right;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.02em;
+    transition: var(--transition-fast);
+}
+
+/* ===========================
+   Calculator Buttons
+   =========================== */
+.calc-btn {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 20px;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Ripple effect */
+.calc-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-slow), height var(--transition-slow);
+    pointer-events: none;
+}
+
+.calc-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Button hover effects */
+.calc-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.calc-btn:active {
+    transform: translateY(-1px) scale(0.98);
+    transition: transform 0.1s;
+}
+
+/* ===========================
+   Button Variants
+   =========================== */
+
+/* Number Buttons */
+.btn-number {
+    background: var(--number-bg);
+    color: var(--text-primary);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.btn-number:hover {
+    background: var(--number-hover);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Operator Buttons */
+.btn-operator {
+    background: var(--operator-bg);
+    color: white;
+    box-shadow: 
+        0 4px 12px rgba(139, 92, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.btn-operator:hover {
+    background: var(--operator-hover);
+    box-shadow: 
+        0 6px 20px rgba(139, 92, 246, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Equal Button */
+.btn-equal {
+    background: var(--equal-bg);
+    color: white;
+    box-shadow: 
+        0 4px 12px rgba(16, 185, 129, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.btn-equal:hover {
+    background: var(--equal-hover);
+    box-shadow: 
+        0 6px 20px rgba(16, 185, 129, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Clear Button */
+.btn-clear {
+    background: var(--clear-bg);
+    color: white;
+    box-shadow: 
+        0 4px 12px rgba(239, 68, 68, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.btn-clear:hover {
+    background: var(--clear-hover);
+    box-shadow: 
+        0 6px 20px rgba(239, 68, 68, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Special Buttons */
+.btn-special {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: white;
+    box-shadow: 
+        0 4px 12px rgba(74, 222, 128, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-special:hover {
+    background: linear-gradient(135deg, #86efac, #4ade80);
+}
+
+/* ===========================
+   Animations & Effects
+   =========================== */
+
+/* Typing effect */
+.typing-effect {
+    animation: typing 0.3s ease-in-out, fadeIn 0.3s ease-in-out;
+}
+
+@keyframes typing {
+    0% { 
+        opacity: 0.5; 
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+    }
+    to { 
+        opacity: 1;
+    }
+}
+
+/* Pulse animation for active state */
+.pulse {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+}
+
+/* ===========================
+   Grid Layout
+   =========================== */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-wide {
+    grid-column: span 2;
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+@media (max-width: 768px) {
+    .glass-morphism {
+        padding: 24px;
+        border-radius: 20px;
+    }
+    
+    .display-text {
+        font-size: 2rem;
+    }
+    
+    .calc-btn {
+        padding: 16px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+    }
+    
+    .button-grid {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .glass-morphism {
+        padding: 16px;
+        margin: 16px;
+    }
+    
+    .display-screen {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .display-text {
+        font-size: 1.75rem;
+    }
+    
+    .calc-btn {
+        padding: 14px;
+        font-size: 1rem;
+    }
+    
+    .button-grid {
+        gap: 8px;
+    }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
     * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
+.calc-btn:focus-visible {
+    outline: 2px solid var(--primary-gradient-1);
+    outline-offset: 2px;
+}
 
-        /* Gradient background animation */
-        .gradient-bg {
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: #f1f5f9;
+        --text-secondary: #e2e8f0;
+    }
+}
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+/* ===========================
+   Loading Animation
+   =========================== */
+.loading {
+    position: relative;
+}
 
-        /* Calculator container glass effect */
-        .glass-morphism {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
 
-        /* Button animations */
-        .calc-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
-        .calc-btn:before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
+/* ===========================
+   Tooltip Styles
+   =========================== */
+.tooltip {
+    position: relative;
+}
 
-        .calc-btn:active:before {
-            width: 300px;
-            height: 300px;
-        }
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+}
 
-        .calc-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .calc-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Display screen effect */
-        .display-screen {
-            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(50, 50, 50, 0.9));
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Number button style */
-        .btn-number {
-            background: linear-gradient(145deg, #2d3748, #1a202c);
-            color: #e2e8f0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-number:hover {
-            background: linear-gradient(145deg, #374151, #1f2937);
-        }
-
-        /* Operator button style */
-        .btn-operator {
-            background: linear-gradient(145deg, #805ad5, #6b46c1);
-            color: white;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
-        }
-
-        .btn-operator:hover {
-            background: linear-gradient(145deg, #9061f9, #7c3aed);
-        }
-
-        /* Equal button style */
-        .btn-equal {
-            background: linear-gradient(145deg, #48bb78, #38a169);
-            color: white;
-            box-shadow: 0 4px 6px rgba(72, 187, 120, 0.3);
-        }
-
-        .btn-equal:hover {
-            background: linear-gradient(145deg, #68d391, #48bb78);
-        }
-
-        /* Clear button style */
-        .btn-clear {
-            background: linear-gradient(145deg, #fc8181, #f56565);
-            color: white;
-            box-shadow: 0 4px 6px rgba(252, 129, 129, 0.3);
-        }
-
-        .btn-clear:hover {
-            background: linear-gradient(145deg, #fc9a9a, #fc8181);
-        }
-
-        /* Typing animation */
-        @keyframes typing {
-            from { opacity: 0.5; }
-            to { opacity: 1; }
-        }
-
-        .typing-effect {
-            animation: typing 0.3s ease-in-out;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .calculator-container {
-                transform: scale(0.9);
-            }
-        }
+.tooltip:hover::after {
+    opacity: 1;
+}
